@@ -35,6 +35,25 @@ steps:
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
 
 
+#  Woker App configuration 
+- name: 'gcr.io/cloud-builders/docker'
+  id: worker-Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
+  - '-f'
+  - 'worker/Dockerfile'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
+  id: worker-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
+
+
+
+
 # Pull PostgreSQL  images from docker hub
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -49,3 +68,5 @@ steps:
   args:
     - 'push'
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1'
+
+
