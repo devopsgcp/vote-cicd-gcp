@@ -40,3 +40,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['pull', 'postgres:latest']
 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'postgres:latest', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1']  # Replace placeholders  
+        # with your desired tag
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: postgre-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1'
