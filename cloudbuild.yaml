@@ -51,9 +51,6 @@ steps:
     - 'push'
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
 
-
-
-
 # Pull PostgreSQL  images from docker hub
 
 - name: 'gcr.io/cloud-builders/docker'
@@ -69,4 +66,16 @@ steps:
     - 'push'
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1'
 
+#  Reddis Configuration 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'redis:latest']
 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'redis:latest', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/redis:v1']  # Replace placeholders  
+        # with your desired tag
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: redis-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/redis:v1'
