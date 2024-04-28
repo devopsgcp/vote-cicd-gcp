@@ -18,7 +18,7 @@ COPY /worker/*.csproj .
 RUN dotnet restore 
 
 COPY . .
-RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
+RUN dotnet publish -c release -o /app 
 
 # app image
 FROM mcr.microsoft.com/dotnet/runtime:7.0
