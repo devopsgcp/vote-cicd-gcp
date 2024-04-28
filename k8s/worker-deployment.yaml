@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-pod
+ # namespace: voting
+  labels: 
+    app: voting 
+    env: prod 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voting 
+      env: prod 
+  template:
+    metadata:
+      name: worker-pod
+      labels:
+        app: voting 
+        env: prod 
+    spec:
+      containers:
+      - name: worker-app
+     #  image: dockersamples/examplevotingapp_worker
+        image:  asia-east1-docker.pkg.dev/cicd-2024/microservices/worker:a02151b
+        

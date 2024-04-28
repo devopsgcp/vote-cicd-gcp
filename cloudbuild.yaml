@@ -1,55 +1,56 @@
 steps:
 
-# result app configuration 
+# Pull voting images from docker hub 
 - name: 'gcr.io/cloud-builders/docker'
-  id: Result-Build
   args:
-  - 'build'
-  - '-t'
-  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
-  - '-f'
-  - 'result/Dockerfile'
-  - '.'
-
+    - 'pull'
+    - 'kodekloud/examplevotingapp_vote:v1'
+# tag voting app 
 - name: 'gcr.io/cloud-builders/docker'
-  id: Result-Push
-  args:
-  - 'push'
-  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+  args: ['tag', 'kodekloud/examplevotingapp_vote:v1', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/vote:v1']
 
-
-# voting app configuration
+# push voting app images to artifact 
 - name: 'gcr.io/cloud-builders/docker'
-  id: Vote-Build
-  args:
-  - 'build'
-  - '-t'
-  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
-  - '-f'
-  - 'vote/Dockerfile'
-  - '.'
-- name: 'gcr.io/cloud-builders/docker'
-  id: Vote-Push 
+  id: vote-Push 
   args:
     - 'push'
-    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/vote:v1'
 
-
-#  Woker App configuration 
+###########################################################################
+# Result app images pull from docker hub
 - name: 'gcr.io/cloud-builders/docker'
-  id: worker-Build
   args:
-  - 'build'
-  - '-t'
-  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
-  - '-f'
-  - 'worker/Dockerfile'
-  - '.'
+    - 'pull'
+    - 'kodekloud/examplevotingapp_result:v1'
+# tag voting app 
 - name: 'gcr.io/cloud-builders/docker'
-  id: worker-Push 
+  args: ['tag', 'kodekloud/examplevotingapp_result:v1', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:v1']
+
+# push voting app images to artifact 
+- name: 'gcr.io/cloud-builders/docker'
+  id: vote-Push 
   args:
     - 'push'
-    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:v1'
+
+
+###########################################################################
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'pull'
+    - 'dockersamples/examplevotingapp_worker'
+# tag voting app 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'dockersamples/examplevotingapp_worker', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:v1']
+
+# push voting app images to artifact 
+- name: 'gcr.io/cloud-builders/docker'
+  id: vote-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:v1'
+
+#############################################################################
 
 # Pull PostgreSQL  images from docker hub
 

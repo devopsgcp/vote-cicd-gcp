@@ -1,0 +1,9 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: managed-cert-for-ingress
+spec:
+  domains:
+    - default-ingress.saagarpalace.com
+    - voting-app.saagarpalace.com
+    - result-app.saagarpalace.com

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+ # namespace: voting
+  labels:
+    app: redis-deploy
+    env: prod 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-deploy 
+      env: prod  
+  template:
+    metadata:
+      name: redis-pod
+      labels:
+        app: redis-deploy
+        env: prod  
+    spec:
+      containers:
+      - name: redis
+        image: asia-east1-docker.pkg.dev/cicd-2024/microservices/redis:v1
+        ports:
+        - containerPort: 6379
+        readinessProbe:
+          exec:
+            command: ["redis-cli", "ping"]
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          failureThreshold: 3

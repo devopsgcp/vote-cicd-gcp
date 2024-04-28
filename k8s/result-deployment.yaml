@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: result-app
+ # namespace: voting
+  labels:
+    app: result
+    env: prod 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: result 
+      env: prod 
+  template:
+    metadata:
+      name: result-pod
+      labels:
+        app: result 
+        env: prod 
+    spec:
+      containers:
+      - name: result-app 
+        image: asia-east1-docker.pkg.dev/cicd-2024/microservices/result:a02151b
+        ports:
+        - containerPort: 80

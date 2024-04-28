@@ -1,0 +1,10 @@
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: my-frontend-config
+spec:
+  redirectToHttps:
+    enabled: true
+   # responseCodeName: PERMANENT_REDIRECT  # Optional, defaults to MOVED_PERMANENTLY (301)
+   # SSL Policy
+ # sslPolicy: gke-ingress-ssl-policy    #  enable it for default SSL certificate 

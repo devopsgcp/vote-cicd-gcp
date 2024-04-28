@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  voting-service
+#  namespace: voting
+  labels: 
+    app: voting-app
+    env: prod 
+  annotations:
+    cloud.google.com/backend-config: '{"default": "my-backendconfig"}' 
+spec:
+  type:  LoadBalancer
+  ports:
+  - name: voting-app-port
+    port:  80
+    targetPort:  80
+  selector:
+    app: voting-app
+    env: prod 

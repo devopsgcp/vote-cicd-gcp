@@ -1,0 +1,81 @@
+steps:
+
+# result app configuration 
+- name: 'gcr.io/cloud-builders/docker'
+  id: Result-Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+  - '-f'
+  - 'result/Dockerfile'
+  - '.'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: Result-Push
+  args:
+  - 'push'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+
+
+# voting app configuration
+- name: 'gcr.io/cloud-builders/docker'
+  id: Vote-Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+  - '-f'
+  - 'vote/Dockerfile'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
+  id: Vote-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+
+
+#  Woker App configuration 
+- name: 'gcr.io/cloud-builders/docker'
+  id: worker-Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
+  - '-f'
+  - 'worker/Dockerfile'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
+  id: worker-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:$SHORT_SHA'
+
+# Pull PostgreSQL  images from docker hub
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'postgres:latest']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'postgres:latest', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1']  # Replace placeholders  
+        # with your desired tag
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: postgre-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/postgre:v1'
+
+#  Reddis Configuration 
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'redis:latest']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', 'redis:latest', 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/redis:v1']  # Replace placeholders  
+        # with your desired tag
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: redis-Push 
+  args:
+    - 'push'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/redis:v1'
