@@ -6,7 +6,7 @@ steps:
   args:
   - 'build'
   - '-t'
-  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
   - '-f'
   - 'result/Dockerfile'
   - '.'
@@ -15,7 +15,7 @@ steps:
   id: Result-Push
   args:
   - 'push'
-  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
 
 
 # voting app configuration
@@ -24,7 +24,7 @@ steps:
   args:
   - 'build'
   - '-t'
-  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+  - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
   - '-f'
   - 'vote/Dockerfile'
   - '.'
@@ -32,7 +32,7 @@ steps:
   id: Vote-Push 
   args:
     - 'push'
-    - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+    - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
 
 
 # Pull PostgreSQL  images from docker hub
