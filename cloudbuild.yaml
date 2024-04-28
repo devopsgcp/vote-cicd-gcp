@@ -1,19 +1,42 @@
 steps:
-# This step builds the container image.
+
+# result app configuration 
 - name: 'gcr.io/cloud-builders/docker'
-  id: Build
+  id: Result-Build
   args:
   - 'build'
   - '-t'
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/myapps-repository/voting:$SHORT_SHA'
-  - 'vote/Dockerfile'
+  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+  - '-f'
+  - 'result/Dockerfile'
   - '.'
 
-# This step pushes the image to Artifact Registry
-# The PROJECT_ID and SHORT_SHA variables are automatically
-# replaced by Cloud Build.
-#- name: 'gcr.io/cloud-builders/docker'
- # id: Push
- # args:
- # - 'push'
- # - 'us-central1-docker.pkg.dev/$PROJECT_ID/myapps-repository/myapp1:$SHORT_SHA'
+- name: 'gcr.io/cloud-builders/docker'
+  id: Result-Push
+  args:
+  - 'push'
+  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/result:$SHORT_SHA'
+
+
+# voting app configuration
+- name: 'gcr.io/cloud-builders/docker'
+  id: Vote-Build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+  - '-f'
+  - 'vote/Dockerfile'
+  - '.'
+- name: 'gcr.io/cloud-builders/docker'
+  id: Vote-Push 
+  args:
+    - 'push'
+    - 'asia-south2-docker.pkg.dev/$PROJECT_ID/microservices/voting:$SHORT_SHA'
+
+
+# Pull PostgreSQL  images from docker hub
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'postgres:latest']
+
