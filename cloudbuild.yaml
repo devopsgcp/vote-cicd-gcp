@@ -28,13 +28,15 @@ steps:
 
 # push voting app images to artifact 
 - name: 'gcr.io/cloud-builders/docker'
-  id: vote-Push 
+  id: result-Push 
   args:
     - 'push'
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/result:v1'
 
 
 ###########################################################################
+# Pull worker images from docker hub
+
 - name: 'gcr.io/cloud-builders/docker'
   args:
     - 'pull'
@@ -45,7 +47,7 @@ steps:
 
 # push voting app images to artifact 
 - name: 'gcr.io/cloud-builders/docker'
-  id: vote-Push 
+  id: worker-Push 
   args:
     - 'push'
     - 'asia-east1-docker.pkg.dev/$PROJECT_ID/microservices/worker:v1'
